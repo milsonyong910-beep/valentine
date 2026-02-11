@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Bubu ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  cursor: url('heart-cursor.png'), auto; /* Heart-shaped cursor */
+}
+
+/* Glow Titles */
+h1 {
+  font-size: 75px;
+  margin-top: 20px;
+  color: white;
+  text-shadow: 0 0 15px #ff4d6d;
+}
+
+h2 {
+  font-size: 32px;
+  color: white;
+}
+
+/* Buttons */
+button {
+  font-size: 28px;
+  padding: 15px 35px;
+  margin: 20px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#yes {
+  background-color: #ff4d6d;
+  color: white;
+  box-shadow: 0 0 15px #ff4d6d;
+}
+
+#no {
+  background-color: white;
+  transition: 0.3s;
+}
+
+/* Dudu & Bubu floating stickers */
+.floating {
+  position: absolute;
+  width: 200px;
+  opacity: 0.8;
+  animation: float 6s infinite ease-in-out, drift 10s infinite alternate, pulse 3s infinite ease-in-out;
+  mix-blend-mode: multiply;
+}
+
+/* Floating up/down */
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Drift left/right */
+@keyframes drift {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(15px); }
+  100% { transform: translateX(0px); }
+}
+
+/* Pulse */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Pop Animation */
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Typing Effect */
+.typewriter h2 {
+  display: inline-block;
+  border-right: 2px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 32px;
+  animation: typing 4s steps(40, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+</style>
+</head>
+
+<body>
+
+<img src="dudu.png" id="topDudu">
+
+<h1>Hey Bubu ❤️</h1>
+<h2>Will you be my Valentine?</h2>
+
+<button id="yes" onclick="yesClicked()">YES 💖</button>
+<button id="no" onclick="noClicked()">NO 🙈</button>
+
+<script>
+/* ============================
+  SETTINGS
+============================ */
+const stickers = [
+  "dudu.png",
+  "bubu.png",
+  "dudu2.png",
+  "bubu2.png",
+  "dudu3.png",
+  "bubu3.png"
+]; // Add your PNG filenames here
+
+const stickerCount = 15; // How many stickers to display
+const stickerWidth = 200; // Size of stickers
+const stickerPositions = []; // To store placed positions
+
+/* ============================
+  HELPER: CHECK DISTANCE
+============================ */
+function isTooClose(x, y, minDistance = 220) {
+  for (let pos of stickerPositions) {
+    const dx = pos.x - x;
+    const dy = pos.y - y;
+    if (Math.sqrt(dx*dx + dy*dy) < minDistance) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/* ============================
+  GENERATE STICKERS RANDOMLY
+============================ */
+for(let i=0; i<stickerCount; i++){
+  let img = document.createElement("img");
+  img.src = stickers[Math.floor(Math.random() * stickers.length)]; // random PNG
+  img.classList.add("floating");
+  img.style.width = stickerWidth + "px";
+
+  // Try to place sticker without overlapping
+  let attempts = 0;
+  let x, y;
+  do {
+    x = Math.random() * 80; // left in vw
+    y = Math.random() * 80; // top in vh
+    attempts++;
+  } while(isTooClose(x, y) && attempts < 100);
+
+  stickerPositions.push({x, y});
+  img.style.left = x + "vw";
+  img.style.top = y + "vh";
+
+  // Random animation durations
+  const floatDur = 5 + Math.random() * 3;
+  const driftDur = 8 + Math.random() * 4;
+  const pulseDur = 2 + Math.random() * 2;
+  img.style.animation = `float ${floatDur}s infinite ease-in-out, drift ${driftDur}s infinite alternate, pulse ${pulseDur}s infinite ease-in-out`;
+
+  document.body.appendChild(img);
+}
+
+/* ============================
+  YES / NO BUTTON LOGIC
+============================ */
+let noButton = document.getElementById('no');
+let yesButton = document.getElementById('yes');
+
+let noSize = 28;  
+let yesSize = 28; 
+let noClicks = 0;
+
+function yesClicked() {
+  document.body.innerHTML = `
+    <div style="margin-top:120px; animation: pop 0.8s ease;">
+      <h1 style="font-size:85px; color:white; text-shadow:0 0 20px #ff4d6d;">
+        YOU SAID YES 💍❤️
+      </h1>
+      <div class="typewriter" style="margin-bottom:30px;">
+        <h2>
+          我的小可爱, 我的小臭臭 ❤️
+        </h2>
+      </div>
+      <h2 style="color:white; margin-bottom:30px;">
+        I LOVE YOU TODAY, TOMORROW AND FOREVER. I PROMISE TO CHERISH YOU, TEASE YOU, ANNOY YOU, TAKE CARE OF YOU AND BE BY YOUR SIDE UNTIL OLD.
+      </h2>
+
+      <!-- One Dudu/Bubu PNG beside YES -->
+      <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-top:20px;">
+        <img src="dudu.png" style="width:150px;">
+      </div>
+    </div>
+  `;
+}
+
+function noClicked() {
+  noClicks++;
+  
+  // shrink NO gradually
+  noSize = noSize * 0.85;
+  noButton.style.fontSize = noSize + "px";
+  if(noClicks >= 15 || noSize < 5){
+    noButton.style.display = "none";
+  }
+
+  // grow YES gradually
+  yesSize = yesSize * 1.05;
+  yesButton.style.fontSize = yesSize + "px";
+}
+</script>
+
+</body>
+</html>
